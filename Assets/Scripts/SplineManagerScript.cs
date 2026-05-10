@@ -10,28 +10,7 @@ public class SplineDrawManager : MonoBehaviour
         public List<Vector3> points = new List<Vector3>();
         public List<Vector3> renderPoints = new List<Vector3>();
         public LineRenderer lr;
-        public List<Wagon> wagons = new List<Wagon>();
-    }
-
-    private class Wagon
-    {
-        public GameObject go;
-        public SpriteRenderer sr;
-        public SplineLine line;
-
-        public float t = 0f;
-        public float speed = 2f;
-        public int direction = 1;
-        public float totalLength;
-        public List<float> segLengths = new List<float>();
-        public List<float> cumLengths = new List<float>();
-
-        public ItemType cargo = null;
-        public int cargoAmount = 0;
-
-        public float waitTimer = 0f;
-        public float waitDuration = 0.4f;
-        public bool waiting = false;
+        public List<WagonController> wagons = new List<WagonController>();
     }
 
     private List<SplineLine> _lines = new List<SplineLine>();
@@ -39,6 +18,7 @@ public class SplineDrawManager : MonoBehaviour
     private Factory _startFactory;
     private Camera _cam;
 
+    public GameObject wagonPrefab;
     public float wagonSpeed = 2.5f;
     public float wagonSize = 0.35f;
     public float cornerRadius = 0.3f;
@@ -68,6 +48,19 @@ public class SplineDrawManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            // Wagona tıklandı mı?
+            Vector2 mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hit = Physics2D.OverlapPoint(mousePos);
+            if (hit != null)
+            {
+                var wagon = hit.GetComponent<WagonController>();
+                if (wagon != null)
+                {
+                    wagon.ToggleSpeed(wagonSpeed);
+                    return;
+                }
+            }
+
             Factory clicked = GetClickedFactory();
             if (clicked == null) return;
 
@@ -151,141 +144,32 @@ public class SplineDrawManager : MonoBehaviour
             cumLengths.Add(total);
         }
 
-        var go = new GameObject($"Wagon_{line.lr.name}");
-        var sr = go.AddComponent<SpriteRenderer>();
-        sr.sprite = CreateWagonSprite();
-        sr.color = Color.white;
-        sr.sortingOrder = -1;
-        go.transform.localScale = Vector3.one * wagonSize;
+        var go = Instantiate(wagonPrefab);
+        go.name = $"Wagon_{line.lr.name}";
 
-        var wagon = new Wagon
-        {
-            go = go,
-            sr = sr,
-            line = line,
-            speed = wagonSpeed,
-            totalLength = total,
-            segLengths = segLengths,
-            cumLengths = cumLengths
-        };
+        var sr = go.GetComponent<SpriteRenderer>();
+        if (sr != null) { sr.color = Color.white; sr.sortingOrder = -1; }
 
-        line.wagons.Add(wagon);
+        var controller = go.GetComponent<WagonController>();
+        if (controller == null) controller = go.AddComponent<WagonController>();
 
-        // İlk kalkışta kargo al — karşı taraf talep ediyorsa
-        if (line.to.NeedsResource(line.from.production) && line.from.Stock > 0)
-        {
-            if (line.from.TakeResource(line.from.production, out int amount))
-            {
-                wagon.cargo = line.from.production;
-                wagon.cargoAmount = amount;
-                wagon.sr.color = wagon.cargo.color;
-            }
-        }
+        controller.Init(pts, segLengths, cumLengths, total, line.from, line.to, wagonSpeed);
+        line.wagons.Add(controller);
     }
 
     void UpdateWagons()
     {
         foreach (var line in _lines)
-        {
             foreach (var wagon in line.wagons)
-            {
-                if (wagon.waiting)
-                {
-                    wagon.waitTimer += Time.deltaTime;
-                    if (wagon.waitTimer >= wagon.waitDuration)
-                    {
-                        wagon.waiting = false;
-                        wagon.waitTimer = 0f;
-                    }
-                    continue;
-                }
-
-                wagon.t += wagon.speed * wagon.direction * Time.deltaTime;
-
-                if (wagon.t >= wagon.totalLength)
-                {
-                    wagon.t = wagon.totalLength;
-                    wagon.direction = -1;
-                    HandleArrival(wagon, line.to, line.from);
-                }
-                else if (wagon.t <= 0f)
-                {
-                    wagon.t = 0f;
-                    wagon.direction = 1;
-                    HandleArrival(wagon, line.from, line.to);
-                }
-
-                wagon.go.transform.position = GetPositionOnLine(wagon);
-                Vector3 dir = GetDirectionOnLine(wagon);
-                if (dir != Vector3.zero)
-                    wagon.go.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(Vector3.forward, dir));
-            }
-        }
+                wagon.UpdateMove();
     }
 
-    void HandleArrival(Wagon wagon, Factory arrived, Factory other)
+    public void SetAllWagonSpeed(float newSpeed)
     {
-        // 1. Kargo varsa bırak
-        if (wagon.cargo != null)
-        {
-            arrived.ReceiveResource(wagon.cargo, wagon.cargoAmount);
-            wagon.cargo = null;
-            wagon.cargoAmount = 0;
-        }
-
-        // 2. Karşı tarafa verebileceğim bir şey var mı? (arrived üretiyor, other istiyor)
-        if (other.NeedsResource(arrived.production) && arrived.Stock > 0)
-        {
-            if (arrived.TakeResource(arrived.production, out int amount))
-            {
-                wagon.cargo = arrived.production;
-                wagon.cargoAmount = amount;
-            }
-        }
-        // 3. Verecek bir şey yoksa, karşı taraftan alabilecek bir şey var mı? (other üretiyor, arrived istiyor)
-        else if (arrived.NeedsResource(other.production) && other.Stock > 0)
-        {
-            // Boş git, karşı tarafta yüklenecek — yön değiştirme, sadece git
-        }
-
-        wagon.sr.color = wagon.cargo != null ? wagon.cargo.color : Color.white;
-        wagon.waitDuration = 0.4f;
-        wagon.waiting = true;
-    }
-
-    Vector3 GetPositionOnLine(Wagon wagon)
-    {
-        var pts = wagon.line.renderPoints;
-        var cum = wagon.cumLengths;
-        int seg = 0;
-
-        for (int i = 1; i < cum.Count; i++)
-        {
-            if (wagon.t <= cum[i]) { seg = i - 1; break; }
-            seg = i - 1;
-        }
-
-        float localT = wagon.segLengths[seg] > 0f
-            ? (wagon.t - cum[seg]) / wagon.segLengths[seg]
-            : 0f;
-
-        return Vector3.Lerp(pts[seg], pts[seg + 1], localT);
-    }
-
-    Vector3 GetDirectionOnLine(Wagon wagon)
-    {
-        var pts = wagon.line.renderPoints;
-        var cum = wagon.cumLengths;
-        int seg = 0;
-
-        for (int i = 1; i < cum.Count; i++)
-        {
-            if (wagon.t <= cum[i]) { seg = i - 1; break; }
-            seg = i - 1;
-        }
-
-        Vector3 dir = (pts[seg + 1] - pts[seg]).normalized;
-        return wagon.direction == -1 ? -dir : dir;
+        wagonSpeed = newSpeed;
+        foreach (var line in _lines)
+            foreach (var wagon in line.wagons)
+                wagon.SetSpeed(newSpeed);
     }
 
     Vector3[] SnapWithBend(Vector3 from, Vector3 to)
@@ -382,20 +266,6 @@ public class SplineDrawManager : MonoBehaviour
         s.z = Mathf.Abs(_cam.transform.position.z);
         Vector3 w = _cam.ScreenToWorldPoint(s); w.z = 0f;
         return w;
-    }
-
-    Sprite CreateWagonSprite()
-    {
-        int w = 32, h = 10;
-        var tex = new Texture2D(w, h);
-        tex.filterMode = FilterMode.Point;
-
-        for (int y = 0; y < h; y++)
-            for (int x = 0; x < w; x++)
-                tex.SetPixel(x, y, Color.white);
-
-        tex.Apply();
-        return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f), h);
     }
 
     void OnGUI()

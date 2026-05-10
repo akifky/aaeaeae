@@ -1244,6 +1244,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1456644831104485634, guid: f9372865781cc3e43bd4d93640d3705c, type: 3}
+      propertyPath: wagonPrefab
+      value: 
+      objectReference: {fileID: 4639872134583482963, guid: b64d5283308b9e54cb6acb2bb34d88b0, type: 3}
     - target: {fileID: 5347669445498167242, guid: f9372865781cc3e43bd4d93640d3705c, type: 3}
       propertyPath: m_Name
       value: SplineManager
