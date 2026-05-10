@@ -48,13 +48,12 @@ public class SplineDrawManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            // Wagona tıklandı mı?
             Vector2 mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D hit = Physics2D.OverlapPoint(mousePos);
-            if (hit != null)
+            Collider2D hit2d = Physics2D.OverlapPoint(mousePos);
+            if (hit2d != null)
             {
-                var wagon = hit.GetComponent<WagonController>();
-                var wagonP = hit.GetComponentInParent<WagonController>();
+                var wagon = hit2d.GetComponent<WagonController>();
+                var wagonP = hit2d.GetComponentInParent<WagonController>();
                 if (wagon != null || wagonP != null)
                 {
                     wagon?.ToggleSpeed(wagonSpeed);
@@ -70,17 +69,16 @@ public class SplineDrawManager : MonoBehaviour
             {
                 _startFactory = clicked;
                 StartLine(clicked);
+                return; // bunu ekle
             }
-            else
+
+            if (clicked == _startFactory) { CancelLine(); return; }
+            if (LineExists(_startFactory, clicked))
             {
-                if (clicked == _startFactory) { CancelLine(); return; }
-                if (LineExists(_startFactory, clicked))
-                {
-                    Debug.Log("Bu iki factory arasında zaten hat var.");
-                    CancelLine(); return;
-                }
-                FinishLine(clicked);
+                Debug.Log("Bu iki factory arasında zaten hat var.");
+                CancelLine(); return;
             }
+            FinishLine(clicked);
         }
 
         if (Input.GetMouseButtonDown(1)) CancelLine();
@@ -259,7 +257,11 @@ public class SplineDrawManager : MonoBehaviour
     {
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
-        return hit.collider != null ? hit.collider.GetComponent<Factory>() : null;
+        if (hit.collider == null) return null;
+
+        var f = hit.collider.GetComponent<Factory>();
+        if (f == null) f = hit.collider.GetComponentInParent<Factory>();
+        return f;
     }
 
     Vector3 GetMouseWorld()
