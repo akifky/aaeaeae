@@ -47,7 +47,7 @@ public class Factory : MonoBehaviour
         _timer = Random.Range(0f, productionInterval);
 
         // Output Image
-        if (OutputSprite != null)
+        if (OutputSprite != null && production != null)
         {
             OutputSprite.sprite = production.icon;
         }
