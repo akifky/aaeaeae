@@ -28,6 +28,7 @@ public class WagonController : MonoBehaviour
 
     private Factory _from;
     private Factory _to;
+    public bool inFactory = false;
 
     private float _normalSpeed;
 
@@ -47,16 +48,26 @@ public class WagonController : MonoBehaviour
 
         TryLoadCargo(_from, _to);
     }
-
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Wagon")
+        if (collision.gameObject.tag == "Factory")
+        {
+            inFactory = true;
+        }
+
+        if (collision.gameObject.tag == "Wagon" && !inFactory)
         {
             Debug.Log("Wagon collision detected! Restarting scene...");
             SceneManager.LoadScene(0);
         }
     }
-
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Factory")
+        {
+            inFactory = false;
+        }
+    }
     void Update()
     {
         elapsedTime += Time.deltaTime;
