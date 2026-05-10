@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -48,12 +47,11 @@ public class WagonController : MonoBehaviour
 
         TryLoadCargo(_from, _to);
     }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Factory")
-        {
             inFactory = true;
-        }
 
         if (collision.gameObject.tag == "Wagon" && !inFactory)
         {
@@ -61,17 +59,18 @@ public class WagonController : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
     public void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Factory")
-        {
             inFactory = false;
-        }
     }
+
     void Update()
     {
         elapsedTime += Time.deltaTime;
     }
+
     public void UpdateMove()
     {
         if (_waiting)
@@ -115,7 +114,7 @@ public class WagonController : MonoBehaviour
             _cargoAmount = 0;
         }
 
-        if (other.NeedsResource(arrived.production) && arrived.Stock > 0)
+        if (arrived.production != null && other.NeedsResource(arrived.production) && arrived.Stock > 0)
         {
             if (arrived.TakeResource(arrived.production, out int amount))
             {
@@ -123,7 +122,7 @@ public class WagonController : MonoBehaviour
                 _cargoAmount = amount;
             }
         }
-        else if (arrived.NeedsResource(other.production) && other.Stock > 0)
+        else if (other.production != null && arrived.NeedsResource(other.production) && other.Stock > 0)
         {
             // Boş git, karşı tarafta yüklenecek
         }
@@ -135,6 +134,7 @@ public class WagonController : MonoBehaviour
 
     void TryLoadCargo(Factory from, Factory to)
     {
+        if (from.production == null) return;
         if (to.NeedsResource(from.production) && from.Stock > 0)
         {
             if (from.TakeResource(from.production, out int amount))

@@ -63,21 +63,26 @@ public class SplineDrawManager : MonoBehaviour
             }
 
             Factory clicked = GetClickedFactory();
+            Debug.Log($"[Click] clicked: {(clicked != null ? clicked.name : "null")}, _startFactory: {(_startFactory != null ? _startFactory.name : "null")}, _active null: {_active == null}");
+
             if (clicked == null) return;
 
             if (_startFactory == null)
             {
                 _startFactory = clicked;
                 StartLine(clicked);
-                return; // bunu ekle
+                Debug.Log($"[StartLine] from: {clicked.name}, pos: {clicked.transform.position}");
+                return;
             }
 
-            if (clicked == _startFactory) { CancelLine(); return; }
+            if (clicked == _startFactory) { Debug.Log("[Cancel] same factory"); CancelLine(); return; }
             if (LineExists(_startFactory, clicked))
             {
-                Debug.Log("Bu iki factory arasında zaten hat var.");
+                Debug.Log($"[LineExists] {_startFactory.name} <-> {clicked.name}");
                 CancelLine(); return;
             }
+
+            Debug.Log($"[FinishLine] from: {_startFactory.name}, to: {clicked.name}");
             FinishLine(clicked);
         }
 
@@ -100,17 +105,29 @@ public class SplineDrawManager : MonoBehaviour
         _active = new SplineLine { from = from, lr = lr };
         Vector3 start = from.transform.position; start.z = 0f;
         _active.points.Add(start);
+        Debug.Log($"[StartLine] first point: {start}");
         RefreshLine(_active);
     }
 
     void FinishLine(Factory to)
     {
+        Debug.Log($"[FinishLine] points before: {_active.points.Count}, last point: {_active.points[_active.points.Count - 1]}, to pos: {to.transform.position}");
+
         Vector3 last = _active.points[_active.points.Count - 1];
         Vector3 end = to.transform.position; end.z = 0f;
 
-        foreach (var p in SnapWithBend(last, end))
+        Vector3[] bend = SnapWithBend(last, end);
+        Debug.Log($"[FinishLine] bend points: {bend.Length}");
+        foreach (var p in bend)
+        {
+            Debug.Log($"[FinishLine] bend point: {p}");
             _active.points.Add(p);
+        }
         _active.points[_active.points.Count - 1] = end;
+
+        Debug.Log($"[FinishLine] points after: {_active.points.Count}");
+        foreach (var p in _active.points)
+            Debug.Log($"[FinishLine] point: {p}");
 
         _active.to = to;
         RefreshLine(_active);
@@ -258,7 +275,6 @@ public class SplineDrawManager : MonoBehaviour
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
         if (hit.collider == null) return null;
-
         var f = hit.collider.GetComponent<Factory>();
         if (f == null) f = hit.collider.GetComponentInParent<Factory>();
         return f;
@@ -270,14 +286,5 @@ public class SplineDrawManager : MonoBehaviour
         s.z = Mathf.Abs(_cam.transform.position.z);
         Vector3 w = _cam.ScreenToWorldPoint(s); w.z = 0f;
         return w;
-    }
-
-    void OnGUI()
-    {
-        string status = _startFactory != null
-            ? $"Başlangıç: {_startFactory.name} — bitiş factory'sine tıkla"
-            : "Bir factory'ye tıkla";
-        GUI.Label(new Rect(10, 10, 500, 22), status);
-        GUI.Label(new Rect(10, 30, 500, 22), "SAĞ TIK: iptal");
     }
 }
