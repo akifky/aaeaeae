@@ -397,13 +397,4 @@ public class SplineDrawManager : MonoBehaviour
         tex.Apply();
         return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f), h);
     }
-
-    void OnGUI()
-    {
-        string status = _startFactory != null
-            ? $"Başlangıç: {_startFactory.name} — bitiş factory'sine tıkla"
-            : "Bir factory'ye tıkla";
-        GUI.Label(new Rect(10, 10, 500, 22), status);
-        GUI.Label(new Rect(10, 30, 500, 22), "SAĞ TIK: iptal");
-    }
 }
