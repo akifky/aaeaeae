@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 660353372}
     - target: {fileID: 1570213808242189484, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: dayDuration
-      value: 10
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 2193663832127638796, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_Pivot.x

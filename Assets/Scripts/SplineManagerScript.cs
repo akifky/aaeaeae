@@ -33,8 +33,28 @@ public class SplineDrawManager : MonoBehaviour
 
     void Update()
     {
+        HandleHover();
         HandleInput();
         UpdateWagons();
+    }
+
+    void HandleHover()
+    {
+        Vector2 mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D hit2d = Physics2D.OverlapPoint(mousePos);
+
+        WagonController hoveredWagon = null;
+
+        if (hit2d != null)
+        {
+            WagonController w = hit2d.GetComponent<WagonController>();
+            if (w == null) w = hit2d.GetComponentInParent<WagonController>();
+            hoveredWagon = w;
+        }
+
+        foreach (var line in _lines)
+            foreach (var w in line.wagons)
+                w.Outliner(w == hoveredWagon);
     }
 
     void HandleInput()

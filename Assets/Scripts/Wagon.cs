@@ -28,7 +28,7 @@ public class WagonController : MonoBehaviour
     private Factory _from;
     private Factory _to;
     public bool inFactory = false;
-
+    public GameObject outlinePrefab;
     private float _normalSpeed;
 
     public void Init(List<Vector3> renderPoints, List<float> segLengths, List<float> cumLengths, float totalLength, Factory from, Factory to, float speed)
@@ -69,6 +69,14 @@ public class WagonController : MonoBehaviour
     void Update()
     {
         elapsedTime += Time.deltaTime;
+    }
+
+    public void Outliner(bool On)
+    {
+        if(On)
+            outlinePrefab.SetActive(true);
+        else
+            outlinePrefab.SetActive(false);
     }
 
     public void UpdateMove()
