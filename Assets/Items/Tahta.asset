@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e9cfd3da59d1544a54213a65849e5e, type: 3}
+  m_Name: Tahta
+  m_EditorClassIdentifier: Assembly-CSharp::ItemType
+  type: 2
+  displayName: Tahta
+  icon: {fileID: -3851842614570850411, guid: 8709d455bc7d9d2449676ebdf8c23819, type: 3}
+  color: {r: 0.8867924, g: 0.5716086, b: 0, a: 1}
