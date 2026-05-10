@@ -180,4 +180,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WagonController
   speed: 2.5
-  seks: 0
+  seks: 1
