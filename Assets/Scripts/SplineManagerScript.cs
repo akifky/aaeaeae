@@ -54,9 +54,11 @@ public class SplineDrawManager : MonoBehaviour
             if (hit != null)
             {
                 var wagon = hit.GetComponent<WagonController>();
-                if (wagon != null)
+                var wagonP = hit.GetComponentInParent<WagonController>();
+                if (wagon != null || wagonP != null)
                 {
-                    wagon.ToggleSpeed(wagonSpeed);
+                    wagon?.ToggleSpeed(wagonSpeed);
+                    wagonP?.ToggleSpeed(wagonSpeed);
                     return;
                 }
             }
