@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class CameraController : MonoBehaviour
     private Camera _cam;
     private float _targetZoom;
     private Vector3 _targetPos;
-
-    // Pan için
     private Vector3 _dragOrigin;
     private bool _isDragging = false;
 
@@ -35,10 +34,7 @@ public class CameraController : MonoBehaviour
         HandleZoom();
         HandlePan();
 
-        // Smooth zoom
         _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, _targetZoom, Time.deltaTime * zoomSmoothing);
-
-        // Smooth pan
         transform.position = Vector3.Lerp(transform.position, _targetPos, Time.deltaTime * panSmoothing);
     }
 
@@ -47,17 +43,18 @@ public class CameraController : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scroll) < 0.001f) return;
 
-        _targetZoom -= scroll * zoomSpeed * _targetZoom; // zoom hýzý mevcut zoom'a orantýlý
+        _targetZoom -= scroll * zoomSpeed * _targetZoom;
         _targetZoom = Mathf.Clamp(_targetZoom, minZoom, maxZoom);
     }
 
     void HandlePan()
     {
-        // Sað týk yerine sol týk — factory týklamasýyla çakýþmamasý için
-        // factory raycast'i 2D physics kullanýyor, biz sadece boþluk kontrolü yapýyoruz
         if (Input.GetMouseButtonDown(0))
         {
-            // Fabrikaya týklandýysa pan baþlatma
+            // UI üzerindeyse pan baþlatma
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
+
             Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
             if (hit.collider != null) return;
@@ -75,8 +72,6 @@ public class CameraController : MonoBehaviour
         Vector3 delta = _dragOrigin - currentMouseWorld;
 
         Vector3 newPos = _targetPos + delta;
-
-        // Harita sýnýrlarý
         newPos.x = Mathf.Clamp(newPos.x, mapMin.x, mapMax.x);
         newPos.y = Mathf.Clamp(newPos.y, mapMin.y, mapMax.y);
         newPos.z = transform.position.z;
