@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,11 +24,12 @@ public class WagonController : MonoBehaviour
 
     private ItemType _cargo = null;
     private int _cargoAmount = 0;
+    private float elapsedTime = 0f;
 
     private Factory _from;
     private Factory _to;
 
-    public bool seks;
+    private float _normalSpeed;
 
     public void Init(List<Vector3> renderPoints, List<float> segLengths, List<float> cumLengths, float totalLength, Factory from, Factory to, float speed)
     {
@@ -40,19 +43,24 @@ public class WagonController : MonoBehaviour
         _from = from;
         _to = to;
         this.speed = speed;
+        _normalSpeed = speed;
 
         TryLoadCargo(_from, _to);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Wagon")
+        if (collision.gameObject.tag == "Wagon")
         {
             Debug.Log("Wagon collision detected! Restarting scene...");
             SceneManager.LoadScene(0);
         }
     }
 
+    void Update()
+    {
+        elapsedTime += Time.deltaTime;
+    }
     public void UpdateMove()
     {
         if (_waiting)
@@ -154,6 +162,34 @@ public class WagonController : MonoBehaviour
         return seg;
     }
 
-    public void SetSpeed(float newSpeed) => speed = newSpeed;
-    public void ToggleSpeed(float normalSpeed) => speed = speed > 0f ? 0f : normalSpeed;
+    public void SetSpeed(float newSpeed)
+    {
+        _normalSpeed = newSpeed;
+        speed = newSpeed;
+    }
+
+    public void ToggleSpeed(float normalSpeed)
+    {
+        _normalSpeed = normalSpeed;
+        if (speed > 0f)
+            StartCoroutine(SlowDown());
+        else
+            speed = _normalSpeed;
+    }
+
+    private IEnumerator SlowDown()
+    {
+        float startSpeed = speed;
+        float elapsed = 0f;
+        float duration = 0.5f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            speed = Mathf.Lerp(startSpeed, 0f, elapsed / duration);
+            yield return null;
+        }
+
+        speed = 0f;
+    }
 }
