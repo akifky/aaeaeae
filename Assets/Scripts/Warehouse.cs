@@ -9,12 +9,14 @@ public class Warehouse : MonoBehaviour
 
     void Start()
     {
-        _factory = GetComponent<Factory>();
+        
     }
 
     void Update()
     {
         if (_completed) return;
+
+        _factory = GetComponent<Factory>();
 
         foreach (var d in _factory.demands)
         {
