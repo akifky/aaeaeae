@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
   type: 3
   displayName: "Ta\u015F"
-  icon: {fileID: 7490982300922785136, guid: 8dff1adf42fccf54493f21aeb13e9782, type: 3}
+  icon: {fileID: -2347364318137738361, guid: f90fe94c94a0d5a43b24c1b37f1e7858, type: 3}
   color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
