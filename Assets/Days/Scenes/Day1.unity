@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warehouse
       objectReference: {fileID: 0}
+    - target: {fileID: 1798266594543165356, guid: 679c379ece2349d42b2d5bd7222ffb17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4368321592228584215, guid: 679c379ece2349d42b2d5bd7222ffb17, type: 3}
       propertyPath: demands.Array.size
       value: 1
@@ -329,6 +333,10 @@ PrefabInstance:
       propertyPath: produces
       value: 
       objectReference: {fileID: 11400000, guid: 1c6788776cb1494468c57921e497e896, type: 2}
+    - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
+      propertyPath: factoryID
+      value: komur1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
       propertyPath: production
       value: 
@@ -715,6 +723,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f232f86fd10f021489e0aaeaa5587685, type: 2}
     - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
+      propertyPath: factoryID
+      value: demir1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
       propertyPath: production
       value: 
       objectReference: {fileID: 11400000, guid: f232f86fd10f021489e0aaeaa5587685, type: 2}
@@ -885,7 +897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4539469693726864369, guid: 81d9692223692c74e85faa6960ab2f32, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5740064456234906556, guid: 81d9692223692c74e85faa6960ab2f32, type: 3}
       propertyPath: m_Sprite
@@ -1647,6 +1659,10 @@ PrefabInstance:
       propertyPath: produces
       value: 
       objectReference: {fileID: 11400000, guid: 1c6788776cb1494468c57921e497e896, type: 2}
+    - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
+      propertyPath: factoryID
+      value: komur1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7373985682150335020, guid: 7f068a4ddf3e95347a7d71d57847b650, type: 3}
       propertyPath: production
       value: 

@@ -9,17 +9,9 @@ public class DayManager : MonoBehaviour
     private static int _currentDay = 0;
 
     void Start()
-{
-    Factory[] allFactories = FindObjectsOfType<Factory>();
-    foreach (var f in allFactories)
-        f.gameObject.SetActive(false);
-
-    foreach (var f in days[_currentDay].unlockedFactories)
-        f.gameObject.SetActive(true);
-
-    if (newspaperUI != null && days[_currentDay].newspaper != null)
-        newspaperUI.Show(days[_currentDay].newspaper);
-}
+    {
+        ApplyDay(_currentDay);
+    }
 
     void Update()
     {
@@ -31,24 +23,18 @@ public class DayManager : MonoBehaviour
     {
         _currentDay++;
         if (_currentDay >= days.Length) return;
-
-        // Tüm factory'leri kapat
-        Factory[] allFactories = FindObjectsOfType<Factory>();
-        foreach (var f in allFactories)
-            f.gameObject.SetActive(false);
-
-        // Sadece o güne ait olanlarý aç
-        foreach (var f in days[_currentDay].unlockedFactories)
-            f.gameObject.SetActive(true);
-
-        // Gazete göster
-        if (newspaperUI != null && days[_currentDay].newspaper != null)
-            newspaperUI.Show(days[_currentDay].newspaper);
+        ApplyDay(_currentDay);
     }
 
-    IEnumerator LoadAfterDelay(string sceneName, float delay)
+    void ApplyDay(int index)
     {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(sceneName);
+        // Tüm factory'leri kapat (inactive olanlar dahil)
+        Factory[] allFactories = FindObjectsOfType<Factory>(true);
+        foreach (var f in allFactories)
+            f.gameObject.SetActive(System.Array.IndexOf(days[index].unlockedFactoryIDs, f.factoryID) >= 0);
+
+        // Gazete göster
+        if (newspaperUI != null && days[index].newspaper != null)
+            newspaperUI.Show(days[index].newspaper);
     }
 }

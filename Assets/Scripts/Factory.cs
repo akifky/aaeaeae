@@ -11,8 +11,10 @@ public class DemandEntry
 
 public class Factory : MonoBehaviour
 {
+
     [Header("Kimlik")]
     public string factoryName = "Fabrika";
+    public string factoryID;
 
     [Header("Üretim")]
     public ItemType production;
