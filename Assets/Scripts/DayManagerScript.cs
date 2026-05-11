@@ -28,9 +28,21 @@ public class DayManager : MonoBehaviour
 
     void ApplyDay(int index)
     {
-        Factory[] allFactories = FindObjectsOfType<Factory>(true);
-        foreach (var f in allFactories)
-            f.gameObject.SetActive(System.Array.IndexOf(days[index].unlockedFactoryIDs, f.factoryID) >= 0);
+        // Warehouse'larý sýfýrla
+        foreach (var w in FindObjectsOfType<Warehouse>(true))
+            w.Reset();
+
+        // Sadece ilk günde hepsini kapat
+        if (index == 0)
+        {
+            foreach (var f in FindObjectsOfType<Factory>(true))
+                f.gameObject.SetActive(false);
+        }
+
+        // O güne ait olanlarý aç
+        foreach (var f in FindObjectsOfType<Factory>(true))
+            if (System.Array.IndexOf(days[index].unlockedFactoryIDs, f.factoryID) >= 0)
+                f.gameObject.SetActive(true);
 
         if (newspaperUI != null && days[index].newspaper != null)
             newspaperUI.Show(days[index].newspaper);
