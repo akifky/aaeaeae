@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e34788fde7b49e4faa5c7cba357ba87, type: 3}
   m_Name: Day3
   m_EditorClassIdentifier: Assembly-CSharp::DayData
-  sceneName: Day3
   newspaper: {fileID: 0}
+  unlockedFactoryIDs:
+  - Water3.1
+  - Kalker3.1

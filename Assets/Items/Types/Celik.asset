@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14e9cfd3da59d1544a54213a65849e5e, type: 3}
-  m_Name: Demir
+  m_Name: Celik
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
-  displayName: Demir
-  icon: {fileID: 8918753654436127250, guid: fc4659e877e1c7b49b6ae1837f1e5f4c, type: 3}
-  color: {r: 0.21509439, g: 0.21509439, b: 0.21509439, a: 1}
+  displayName: Celik
+  icon: {fileID: 2475022405955379172, guid: 97fb84ec42922d74c8f1d7d11520907b, type: 3}
+  color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}

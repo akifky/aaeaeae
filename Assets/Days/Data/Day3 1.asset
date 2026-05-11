@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e34788fde7b49e4faa5c7cba357ba87, type: 3}
-  m_Name: Day2
+  m_Name: Day3 1
   m_EditorClassIdentifier: Assembly-CSharp::DayData
-  newspaper: {fileID: 3655334518602066907, guid: 2fc9b236013a65e43afb6984ccc53b49, type: 3}
+  newspaper: {fileID: 0}
   unlockedFactoryIDs:
-  - Coal2.3
-  - Steel2.1
+  - Beton4.1

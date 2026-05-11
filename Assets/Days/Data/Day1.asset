@@ -15,6 +15,11 @@ MonoBehaviour:
   newspaper: {fileID: 3038157998073389594, guid: b0eaaaae50d0ce549b15f2a6b0547fee, type: 3}
   unlockedFactoryIDs:
   - warehouse1
-  - demir1
-  - komur1.1
-  - komur1.2
+  - Iron1.1
+  - Coal1.1
+  - Coal1.2
+  - Coal2.3
+  - Water3.1
+  - Kalker3.1
+  - Beton4.1
+  - Steel2.1
