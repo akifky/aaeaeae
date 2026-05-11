@@ -496,15 +496,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_AnchorMax.y
@@ -516,15 +516,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -1900
+      value: 23.0223
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -1060
+      value: -24.7623
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_LocalScale.x
@@ -540,11 +540,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -904.3325
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 257442299209084074, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 490.55984
+      value: -64
       objectReference: {fileID: 0}
     - target: {fileID: 1570213808242189484, guid: 41fce409285914f4394279e6129f8a24, type: 3}
       propertyPath: clockHand
