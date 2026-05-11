@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
   displayName: Kalker
   icon: {fileID: 2441579058404709931, guid: 8103aaa4657873643bdec0a1222b5fd4, type: 3}
-  color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  color: {r: 0.7509433, g: 0.70969146, b: 0.5936703, a: 1}

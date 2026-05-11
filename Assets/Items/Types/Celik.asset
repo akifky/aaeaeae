@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
   displayName: Celik
   icon: {fileID: 2475022405955379172, guid: 97fb84ec42922d74c8f1d7d11520907b, type: 3}
-  color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+  color: {r: 0.8037735, g: 0.8037735, b: 0.8037735, a: 1}

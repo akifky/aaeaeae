@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e9cfd3da59d1544a54213a65849e5e, type: 3}
   m_Name: Komur
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
-  type: 1
   displayName: "K\xF6m\xFCr"
   icon: {fileID: -228819513787663229, guid: af9346b54af29c446b6caadf71cc8f77, type: 3}
-  color: {r: 0, g: 0, b: 0, a: 1}
+  color: {r: 0.07169801, g: 0.07169801, b: 0.07169801, a: 1}

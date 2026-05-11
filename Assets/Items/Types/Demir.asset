@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
   displayName: Demir
   icon: {fileID: 8918753654436127250, guid: fc4659e877e1c7b49b6ae1837f1e5f4c, type: 3}
-  color: {r: 0.21509439, g: 0.21509439, b: 0.21509439, a: 1}
+  color: {r: 0.335849, g: 0.335849, b: 0.335849, a: 1}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
   displayName: Su
   icon: {fileID: 3484593023798690139, guid: fa5b3b681257f804eb91d7467d78fe7c, type: 3}
-  color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  color: {r: 0.39811313, g: 0.67394817, b: 1, a: 1}
