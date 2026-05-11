@@ -14,7 +14,7 @@ public class FadeManager : MonoBehaviour
 
         var canvas = gameObject.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 99;
+        canvas.sortingOrder = 32767;
 
         _fadeGroup = gameObject.AddComponent<CanvasGroup>();
         _fadeGroup.alpha = 1f;
