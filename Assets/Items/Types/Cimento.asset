@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e9cfd3da59d1544a54213a65849e5e, type: 3}
   m_Name: Cimento
   m_EditorClassIdentifier: Assembly-CSharp::ItemType
+<<<<<<< Updated upstream
   displayName: "Ta\u015F"
   icon: {fileID: -2347364318137738361, guid: f90fe94c94a0d5a43b24c1b37f1e7858, type: 3}
   color: {r: 0.83396226, g: 0.7788893, b: 0.7788893, a: 1}
+=======
+  displayName: "\xC7imento"
+  icon: {fileID: -3187364260016787030, guid: a6b2b992398700642a74db8cceebb6fd, type: 3}
+  color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+>>>>>>> Stashed changes
