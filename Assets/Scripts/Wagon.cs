@@ -55,8 +55,9 @@ public class WagonController : MonoBehaviour
 
         if (collision.gameObject.tag == "Wagon" && !inFactory)
         {
-            Debug.Log("Wagon collision detected! Restarting scene...");
-            SceneManager.LoadScene(0);
+            var cam = FindFirstObjectByType<CameraController>();
+            if (cam != null)
+                cam.OnWagonCrash(transform.position);
         }
     }
 
